@@ -1,0 +1,17 @@
+version: "3.11"
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/django
+      - sqlite-data:/django/db
+    ports:
+      - "8000:8000"
+    container_name: fof
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    image: dark1234tan735/fof-app
+
+volumes:
+  sqlite-data:

@@ -1,0 +1,94 @@
+{% extends "Manage/base.html" %} {% load static %} 
+{%block title%}
+<title>Friend of Farmer | Quản lý</title>
+{% endblock title%}
+{% block head %}
+<link rel="stylesheet" href="{% static 'Manage/CSS/m_form.css' %}" />
+{% endblock head %} {% block content_lp %}
+
+{% block landform %}
+
+
+{%endblock%}
+<section class="manage section container">
+  <div class="row">
+		<div class="col manage__overall" >
+			<button class="my-btn" style="width: 50px;" type="button" data-bs-toggle="offcanvas"
+					data-bs-target="#season__man" aria-controls="offcanvasExample">
+			  <i class="fa fa-bars"></i>
+			</button>
+	  
+			<div class="offcanvas offcanvas-start season" tabindex="-1" id="season__man" aria-labelledby="offcanvasExampleLabel">
+			  	<div class="offcanvas-header season__header">
+					<h5 class="offcanvas-title" id="offcanvasExampleLabel">MÙA VỤ GIEO TRỒNG</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			  	</div>
+			  	<div class="offcanvas-body">
+					<div class="off__text">
+				  		Chứa tất cả những thông tin về tất cả các mùa vụ đã gieo trồng.
+					</div>
+					<div class="dropdown mt-3">
+					{% for item in season %}
+						<button class="my-btn modify season-button" data-season-id="{{ item.id }}" onclick="ClickSeason(event); ClickLand(event)">
+						{{ item.season_name }}
+						</button>
+					{% endfor %}
+		
+						<button class="click" style="margin-top: 2rem;" id="click1" onclick="location.href='{% url 'create' %}'">
+							THÊM VỤ MÙA
+						</button>
+						<button class="click" onclick="location.href='{% url 'land' %}'">
+							THÊM ĐẤT ĐAI
+						</button>
+						<button class="click" onclick="location.href='{% url 'plant' %}'">
+							THÊM CÂY TRỒNG
+						</button>
+						
+					</div>
+			  	</div>
+			</div>
+		</div>
+	</div>
+  {% comment %} <div class="land__form plant__form"> {% endcomment %}
+    <form action="" method="post">  
+      {% csrf_token %}
+      <p>THÔNG TIN CÂY TRỒNG</p>
+
+      <label for="plant_name">Tên cây trồng</label>
+      <select name="plant_name" id="plant_name" class = "id_mv">
+        {% for item in plantmode %}
+        <option value="{{ item.plant_name }}">{{ item.plant_name }}</option>
+        {% endfor %}
+      </select>
+    
+      <label for="plant_dev" style="display: block">Thời gian phát triển</label>
+      <input type="number" name="plant_dev" id="plant_dev" placeholder="3 (tháng)" />
+
+      <label for="plant_type">Loại cây</label>
+      <select name="plant_type" id="plant_type" class = "id_mv">
+        <option value="0">Cây lương thực</option>
+        <option value="1">Cây ăn quả</option>
+        <option value="2">Cây rau củ</option>
+      </select>
+
+      <label for="plant_ND" style="display: block;">Chất khoáng cần thiết</label>
+      <input type="text" name="plant_ND" id="plant_ND" placeholder="Nito, Photpho, Kali"/>
+
+      <label for="plant_bp">Chu kỳ bón phân</label>
+      <input type="number" name="plant_bp" id="plant_bp" step="0.01" placeholder="7.5"/>
+
+      <label for="land_id">Cây trồng trên đất: </label>
+      <select name="land_id" id="land_id"  class = "id_mv">
+        {% for item in land_list %}
+          <option value="{{ item.id }}">{{ item.land_name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="my-btn modify">Lưu thông tin</button>  
+    </form>
+  </div>
+</section>
+
+  {% endblock content_lp %} {% block js_LP %}
+<script src="{% static 'Manage/JS/m_input_lp.js'%}"></script>
+{% endblock js_LP %}
